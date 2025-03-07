@@ -25,7 +25,7 @@ export class LineChartComponent  implements OnInit {
     Chart.register(...registerables);
   }
   ngOnInit(): void {
-    console.log("Ejecuta bar-chart");
+    console.log("Ejecuta line-chart");
 
     // Nos suscribimos al observable de tipo BehaviorSubject y cuando este emita un valor, recibiremos una notificación con el nuevo valor.
     this.gestionServiceApi.datos$.subscribe((datos) => {
@@ -89,7 +89,7 @@ export class LineChartComponent  implements OnInit {
         plugins: {
           legend: {
             labels: {
-              boxWidth: 0,
+              boxWidth: 5,
               font: {
                 size: 10,
                 weight: 'bold'
@@ -103,7 +103,7 @@ export class LineChartComponent  implements OnInit {
     this.chart.canvas.height = 100;
   }
   public actualizarChart() {
-    console.log("Actualizar chart");
+    console.log("Actualizar line-chart");
     // Creamos el objeto datasetsByCompany con una key para cada categoría
     const datasetsByCompany: { [key: string]: { label: string; data: number[]; backgroundColor: string[]; borderColor: string[]; borderWidth: number } } = {};
   

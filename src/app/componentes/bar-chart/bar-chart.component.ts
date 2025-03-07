@@ -92,7 +92,7 @@ export class BarChartComponent  implements OnInit {
         plugins: {
           legend: {
             labels: {
-              boxWidth: 0,
+              boxWidth: 5,
               font: {
                 size: 10,
                 weight: 'bold'

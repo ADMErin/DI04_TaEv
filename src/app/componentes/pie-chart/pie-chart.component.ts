@@ -13,8 +13,8 @@ export class PieChartComponent  implements OnInit {
   public apiData: {categoria: string; totalResults: number}[] = [];
 
   
-  @Input() backgroundColorCat: string[] = [];
-  @Input() borderColorCat: string[] = [];
+  @Input() backgroundColorCategorias: string[] = [];
+  @Input() borderColorCategorias: string[] = [];
   @Input() tipoChartSelected: string = "";
   // Atributo que almacena los datos del chart
   public chart!: Chart;
@@ -24,7 +24,7 @@ export class PieChartComponent  implements OnInit {
   }
 
   ngOnInit(): void {
-    console.log("Ejecuta bar-chart");
+    console.log("Ejecuta pie-chart");
 
     // Nos suscribimos al observable de tipo BehaviorSubject y cuando este emita un valor, recibiremos una notificación con el nuevo valor.
     this.gestionServiceApi.datos$.subscribe((datos) => {
@@ -59,8 +59,8 @@ export class PieChartComponent  implements OnInit {
         label: "My First Dataset",
         data: datosCategorias,
         fill: false,
-        backgroundColor: this.backgroundColorCat,
-        borderColor: this.borderColorCat,
+        backgroundColor: this.backgroundColorCategorias,
+        borderColor: this.borderColorCategorias,
         tension: 0.1
       }]
     };
@@ -82,7 +82,7 @@ export class PieChartComponent  implements OnInit {
 
   }
   public actualizarChart() {
-    console.log("Actualizar chart");
+    console.log("Actualizar pie-chart");
     // Creamos el objeto datasetsByCompany con una key para cada categoría
     const datasetsByCompany: { [key: string]: { label: string; data: number[]; backgroundColor: string[]; borderColor: string[]; borderWidth: number } } = {};
   
@@ -96,16 +96,16 @@ export class PieChartComponent  implements OnInit {
         datasetsByCompany[categoria] = {
           label: 'Valores de ' + categoria,
           data: [],
-          backgroundColor: [this.backgroundColorCat[index]],
-          borderColor: [this.borderColorCat[index]],
+          backgroundColor: [this.backgroundColorCategorias[index]],
+          borderColor: [this.borderColorCategorias[index]],
           borderWidth: 1
         };
       }
   
       // Asignamos los valores a datasetsByCompany
       datasetsByCompany[categoria].data[index] = totalResults;
-      datasetsByCompany[categoria].backgroundColor[index] = this.backgroundColorCat[index];
-      datasetsByCompany[categoria].borderColor[index] = this.borderColorCat[index];
+      datasetsByCompany[categoria].backgroundColor[index] = this.backgroundColorCategorias[index];
+      datasetsByCompany[categoria].borderColor[index] = this.borderColorCategorias[index];
     });
   
     // Modificamos los valores de labels del Chart con map
