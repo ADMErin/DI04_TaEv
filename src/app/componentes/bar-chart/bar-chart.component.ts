@@ -37,10 +37,13 @@ export class BarChartComponent  implements OnInit {
   
         // Actualizamos el chart con los nuevos valores cada vez que recibimos un valor.
         if (this.chart) {
-          this.chart.update();
+          this.actualizarChart();
+          console.log("Chart actualizar: ");
         } else {
           this.inicializarChart();
+          console.log("Chart iniciar: ");
         }
+        
         
       } else {console.log("probando");}
       
@@ -102,7 +105,47 @@ export class BarChartComponent  implements OnInit {
     });
     this.chart.canvas.width = 100;
     this.chart.canvas.height = 100;
+    console.log("Chart: " + this.chart);
   }
+
+  // Método para actualizar el Chart con los datos de apiData
+actualizarChart() {
+  // Creamos el objeto datasetsByCompany con una key para cada categoría
+  const datasetsByCompany: { [key: string]: { label: string; data: number[]; backgroundColor: string[]; borderColor: string[]; borderWidth: number } } = {};
+
+  // Recorremos apiData con forEach
+  this.apiData.forEach((row: { categoria: string; totalResults: number }, index: number) => {
+    const categoria = row.categoria;
+    const totalResults = row.totalResults;
+    
+    // Comprobamos si ya hemos dibujado la categoría, si no, la inicializamos
+    if (!datasetsByCompany[categoria]) {
+      datasetsByCompany[categoria] = {
+        label: 'Valores de ' + categoria,
+        data: [],
+        backgroundColor: [this.backgroundColorCategorias[index]],
+        borderColor: [this.borderColorCategorias[index]],
+        borderWidth: 1
+      };
+    }
+
+    // Asignamos los valores a datasetsByCompany
+    datasetsByCompany[categoria].data[index] = totalResults;
+    datasetsByCompany[categoria].backgroundColor[index] = this.backgroundColorCategorias[index];
+    datasetsByCompany[categoria].borderColor[index] = this.borderColorCategorias[index];
+  });
+
+  // Modificamos los valores de labels del Chart con map
+  this.chart.data.labels = this.apiData.map((row: { categoria: string; totalResults: number }) => row.categoria);
+
+  // Transformamos datasetsByCompany en el formato esperado por el Chart con Object.values
+  this.chart.data.datasets = Object.values(datasetsByCompany);
+
+  // Actualizamos el Chart
+  this.chart.update();
+
+}
+
 }
 
 
