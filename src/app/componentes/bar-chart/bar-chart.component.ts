@@ -1,6 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { ElementRef, Renderer2} from '@angular/core';
-import { Chart, ChartType } from 'chart.js';
+import { Chart, ChartType, registerables } from 'chart.js';
 import { servicioNoticias } from 'src/app/servicios/servicioNoticias.service';
 
 
@@ -22,11 +22,13 @@ export class BarChartComponent  implements OnInit {
   // Atributo que almacena los datos del chart
   public chart!: Chart;
 
-  constructor(private el: ElementRef, private renderer: Renderer2, private gestionServiceApi: servicioNoticias) { }
+  constructor(private el: ElementRef, private renderer: Renderer2, private gestionServiceApi: servicioNoticias) { 
+    Chart.register(...registerables);
+  }
 
   ngOnInit(): void {
     console.log("Ejecuta bar-chart");
-  
+
     // Nos suscribimos al observable de tipo BehaviorSubject y cuando este emita un valor, recibiremos una notificación con el nuevo valor.
     this.gestionServiceApi.datos$.subscribe((datos) => {
       
@@ -38,19 +40,16 @@ export class BarChartComponent  implements OnInit {
         // Actualizamos el chart con los nuevos valores cada vez que recibimos un valor.
         if (this.chart) {
           this.actualizarChart();
-          console.log("Chart actualizar: ");
         } else {
           this.inicializarChart();
-          console.log("Chart iniciar: ");
         }
-        
-        
+
       } else {console.log("probando");}
       
     });
   }
   
-  private inicializarChart(): void {
+  public inicializarChart(): void {
     console.log("Iniciar chart");
   
     const categorias = this.apiData.map(datos => datos.categoria);
@@ -95,7 +94,7 @@ export class BarChartComponent  implements OnInit {
             labels: {
               boxWidth: 0,
               font: {
-                size: 16,
+                size: 10,
                 weight: 'bold'
               }
             },
@@ -109,7 +108,8 @@ export class BarChartComponent  implements OnInit {
   }
 
   // Método para actualizar el Chart con los datos de apiData
-actualizarChart() {
+public actualizarChart() {
+  console.log("Actualizar chart");
   // Creamos el objeto datasetsByCompany con una key para cada categoría
   const datasetsByCompany: { [key: string]: { label: string; data: number[]; backgroundColor: string[]; borderColor: string[]; borderWidth: number } } = {};
 
