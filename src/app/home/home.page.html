@@ -3,7 +3,7 @@
     <ion-title>
       Graficos
     </ion-title>
-    <ion-segment [value]="tipoDeChartSeleccionado">
+    <ion-segment [value]="tipoDeChartSeleccionado" (ionChange)="segmentChanged($event)">
       <ion-segment-button value="bar-chart">
         Bar Chart
       </ion-segment-button>
@@ -18,7 +18,28 @@
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  <app-bar-chart *ngIf="tipoDeChartSeleccionado === 'bar-chart'" [tipoChartSelected]="tipoDeChartSeleccionado" [borderColorCategorias]="borderColorCat" [backgroundColorCategorias]="backgroundColorCat"></app-bar-chart>
+  <ion-content [fullscreen]="true" *ngIf="tipoDeChartSeleccionado === 'bar-chart'">
+    <!-- Mostrar u ocultar componentes según el segmento seleccionado -->
+    <ion-grid>
+      <ion-row>
+        <ion-col size="6">
+          <app-bar-chart [tipoChartSelected]="tipoDeChartSeleccionado" [borderColorCategorias]="borderColorCat" [backgroundColorCategorias]="backgroundColorCat"></app-bar-chart>
+        </ion-col>
+        <ion-col size="6">
+          <ion-row>
+            <ion-col size="12">
+              <app-line-chart></app-line-chart>
+            </ion-col>
+          </ion-row>
+          <ion-row>
+            <ion-col size="12">
+              <app-pie-chart></app-pie-chart>
+            </ion-col>
+          </ion-row>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </ion-content>
   <!--En el segmento "Line-Chart" mostraremos únicamente su correspondiente gráfica-->
   <app-line-chart *ngIf="tipoDeChartSeleccionado === 'line-chart'"></app-line-chart>
   <!--En el segmento "Pie-Chart" mostraremos únicamente su correspondiente gráfica-->
