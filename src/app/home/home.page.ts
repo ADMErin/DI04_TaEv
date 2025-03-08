@@ -35,12 +35,9 @@ export class HomePage {
     this.tipoDeChartSeleccionado = event.detail.value;
     console.log(this.tipoDeChartSeleccionado);
     
-    //En caso de bar-chart, realizamos una llamada al api por cada categoria que tenemos.
-    if (this.tipoDeChartSeleccionado == "bar-chart"){
-      this.categorias.forEach(categoria => {
-        this.gestionServiceApi.cargarCategoria(categoria);
-      });
-    }
+    this.categorias.forEach(categoria => {
+      this.gestionServiceApi.cargarCategoria(categoria);
+    });  
   }
 
 }
